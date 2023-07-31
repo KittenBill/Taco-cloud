@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<!-- thymeleaf 介绍：https://zhuanlan.zhihu.com/p/163391278 -->
+<head>
+    <meta charset="UTF-8">
+    <title>Taco Cloud</title>
+    <link rel="stylesheet" th:herf="@{/styles.css}" /><!-- @{...}是thymeleaf的资源地址-->
+</head>
+<body>
+<h1>Design your taco!</h1>
+<img th:src="@{/images/TacoCloud.png}" alt="taco picture"/>
+
+<form method="post" th:object="${design}">
+    <!-- form标签没有指定action，则向与展现该表单相同的URL上提交表单，在此为"/design"，默认方法为POST -->
+    <!-- ${key}可以根据key取到model中的value，kv对通过后端的model.addAttribute(key, value) 进行设置-->
+    <div class="grid">
+        <div class="ingredient-group" id="wraps">
+            <h3>Designate your wrap:</h3>
+            <div th:each="ingredient:${wrap}"><!-- 遍历model中key为wrap的value，该value的类型为List，遍历过程中，每个元素称为ingredient-->
+                <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
+                <span th:text="${ingredient.name}">INGREDIENT</span><br/>
+            </div>
+        </div>
+
+        <div class="ingredient-group" id="proteins">
+            <h3>Pick your protein</h3>
+            <div th:each="ingredient:${protein}">
+                <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
+                <span th:text="${ingredient.name}">INGREDIENT</span><br/>
+            </div>
+        </div>
+
+        <div class="ingredient-group" id="cheeses">
+            <h3>Choose your cheese:</h3>
+            <div th:each="ingredient:${cheeses}">
+                <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
+                <span th:text="${ingredient.name}">INGREDIENT</span>
+            </div>
+        </div>
+
+        <div class="ingredient-group" id="veggies">
+            <h3>Determine your veggies:</h3>
+            <div th:each="ingredient:${veggies}">
+                <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
+                <span th:text="${ingredient.name}">INGREDIENT</span>
+            </div>
+        </div>
+
+        <div class="ingredient-group" id="sauces">
+            <h3>Select your sauce:</h3>
+            <div th:each="ingredient:${sauce}">
+                <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
+                <span th:text="${ingredient.name}">INGREDIENT</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div>
+    <h3>Name your taco creation:</h3>
+    <input type="text" th:field="*{name}" /> <!-- 因为form标签中指定了th:object="${design}这一对象"，所以这里的*{name}就等价于${object.name}。在没有指定对象时，${}与*{}等价-->
+    <br/>
+    <button>Submit your taco</button>
+    </div>
+
+</form>
+
+</body>
+</html>
